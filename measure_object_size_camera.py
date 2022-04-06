@@ -10,24 +10,24 @@ aruco_dict = cv.aruco.Dictionary_get(cv.aruco.DICT_5X5_50)
 # Load object detector
 detector = HomogeneousBgDetector()
 
-# Load Image
+# Load Cap
 img = cv.imread("Photos/phone_aruco_marker.jpg")
 
 # Get aruco marker
-corners, _, _ = cv.aruco.detectMarkers(img, aruco_dict, parameters=parameters)
+corners = cv.aruco.detectMarkers(img, aruco_dict, parameters=parameters)
 print(corners)
 
 # Draw polygon around the marker
 int_corners = np.int0(corners)
 cv.polylines(img, int_corners, True, (0,255,0), 5)
 
-contours = detector.detect_objects(img)
-
 # Aruco Perimeter
 aruco_perimeter = cv.arcLength(corners[0], True)
 
 # Pixel to CM ratio
 pixel_cm_ratio = aruco_perimeter / 20
+
+contours = detector.detect_objects(img)
 
 # Draw objects boundries
 for cnt in contours:
